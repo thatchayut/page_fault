@@ -326,7 +326,7 @@ void LRU(int ref_size, int frame_size, int ref[], int frame[])
             else 
             {
                 replace_position = minUsed(frame_size, used);
-                frame[replace_position] = ref_LRU[i];
+                frame_LRU[replace_position] = ref_LRU[i];
                 used[replace_position] = 0;
             }
             page_fault_counter++;
@@ -346,7 +346,7 @@ void LRU(int ref_size, int frame_size, int ref[], int frame[])
         }
         cout << endl;
     }
-    cout << "page fault count : " << page_fault_counter <<endl;
+    cout << "page fault count : " << page_fault_counter << endl;
 }
 //End of LRU algorithm
 
