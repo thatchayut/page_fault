@@ -397,7 +397,7 @@ int main()
         srand(time(NULL));
         for(int i = 0; i < ref_size; i++)
         {
-            rand_value = rand()%10;
+            rand_value = rand()%ref_size;
             ref[i] = rand_value;
         }
     }
