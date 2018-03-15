@@ -200,22 +200,23 @@ void Optimal(int ref_size, int frame_size, int ref[], int frame[])
                         //To check how far to the next use
                         if(frame_optimal[j] == ref_optimal[k])
                         {   
-                            next_use[i] = k - i;
+                            next_use[j] = k - i;
                             break;
                         }
                         else
                         {
                             //If element is not exist, assign the highest value to be a waiting time
-                            next_use[i] = 10000000;
+                            next_use[j] = 10000000;
                         }
                     }
+                    
+                } 
+                //Find the frame's element with maximum distance to the next use to be replaced
+                replace_position = longestWait(frame_size, next_use);
 
-                    //Find the frame's element with maximum distance to the next use to be replaced
-                    replace_position = longestWait(frame_size, next_use);
-
-                    //Replace an element from reference string to the proper position
-                    frame_optimal[replace_position] = ref_optimal[i];
-                }    
+                //Replace an element from reference string to the proper position
+                frame_optimal[replace_position] = ref_optimal[i];
+                next_use[replace_position] = -1;   
             }          
             page_fault_counter++;
         }
@@ -245,7 +246,7 @@ void LRU(int ref_size, int frame_size, int ref[], int frame[])
     int ref_LRU[ref_size];
     int frame_LRU[frame_size];
     int used[frame_size];
-    int used_counter = 0;
+    // int used_counter = 0;
     bool is_found;
     bool is_empty;
 
@@ -265,8 +266,18 @@ void LRU(int ref_size, int frame_size, int ref[], int frame[])
     //from all frames
     for(int  i = 0; i < frame_size; i++)
     {
-        used[i] = -1;
+        // used[i] = -1;
+        used[i] = 0;
     }
+
+    cout << "Reference string : ";
+    for(int i = 0; i < ref_size; i++)
+    {
+        cout << ref_LRU[i] <<" ";
+    }
+    cout << endl;
+
+    cout << "LRU algorithm process ...\n";
 
     //Iterate through all of elements in reference string
     for(int i = 0; i < ref_size; i++)
@@ -279,8 +290,9 @@ void LRU(int ref_size, int frame_size, int ref[], int frame[])
             if(ref_LRU[i] == frame_LRU[j])
             {
                 is_found = true;
-                used_counter++;
-                used[j] = used_counter;
+                // used_counter++;
+                used[j]++;
+                // used[j] = used_counter;
                 break;
             }
         }
@@ -315,6 +327,7 @@ void LRU(int ref_size, int frame_size, int ref[], int frame[])
             {
                 replace_position = minUsed(frame_size, used);
                 frame[replace_position] = ref_LRU[i];
+                used[replace_position] = 0;
             }
             page_fault_counter++;
         }
